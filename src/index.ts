@@ -1,62 +1,40 @@
-import * as crypto from "crypto";
 import PromptSync from "prompt-sync";
+import { EncryptedSeed, AESEncryption } from "../src/core/encryption.js"
 
-// 1. Mettre en place le chiffrement AES avec un password
+// 1. Mettre en place le chiffrement AES avec un password ✅
 // 2. Stringify le chiffrement AES
 // 3. Implementer le Shamir Split pour 3 fragments et en jeter 1
 
 
 // Objectif : 
-// Créer la fonction de decryptage
 // Créer les tests
 
 const prompt = PromptSync();
-const seed: string = prompt("Please enter your seedphrase: ");
-const passphrase: string = prompt("Please enter your password: "); 
+let end = false;
 
-export class AESEncryption {
-    private static readonly ALGORITHM = "aes-256-gcm";
-    private static readonly KEY_LENGTH = 32;
-    private static readonly SALT_LENGTH = 64;
-    private static readonly IV_LENGTH = 16;
-    private static readonly ITERATIONS = 100000;
+while (end === false) {
+    console.log("If you want to encrypt press: 1. If you want to decrypt press: 2.")
+    let answer: string = prompt("Choice: ");
+    const passphrase: string = prompt("Please enter your password: ");
 
-    private static deriveKey(passphrase: string, salt: Buffer): Buffer {
-        return crypto.pbkdf2Sync(
-            passphrase,
-            salt,
-            this.ITERATIONS,
-            this.KEY_LENGTH,
-            "sha512"
-        )
-    }
-
-    static encrypt(seed: string, passphrase: string) {
-        const salt: Buffer = crypto.randomBytes(this.SALT_LENGTH);
-        const iv: Buffer = crypto.randomBytes(this.IV_LENGTH);
-        
-        // Create derived key
-        const key: Buffer = this.deriveKey(passphrase, salt);
-        
-        // Create cipher
-        const cipher = crypto.createCipheriv(this.ALGORITHM, key, iv)
-
-        // Encrypt cipher text
-        let cipherText = cipher.update(seed, "utf-8", "hex");
-        cipherText += cipher.final("hex");
-
-        // Get tag
-        const tag: Buffer = cipher.getAuthTag();
-
-        return {
+    if (String(answer) === "1") {
+        const seed: string = prompt("Please enter your seedphrase: ");
+        const encrypt: EncryptedSeed = AESEncryption.encrypt(seed, passphrase);
+        console.log("Please save your encryption careful or you won't be able to decrypt later: ", encrypt);
+        end = true;        
+    } else if (String(answer) === "2") {
+        const cipherText: string = prompt("Please enter you cipher text: ");
+        const iv: string = prompt("Please enter you iv: ");
+        const salt: string = prompt("Please enter you salt: ");
+        const tag: string = prompt("Please enter you tag: ");
+        const encrypt: EncryptedSeed = {
             cipherText,
-            iv: iv.toString("hex"),
-            salt: salt.toString("hex"),
-            tag: tag.toString("hex")
+            iv,
+            salt,
+            tag
         }
-    } 
+        const decrypt: string = AESEncryption.decrypt(encrypt, passphrase);
+        console.log(decrypt);
+        end = true;
+    }
 }
-
-const result: object = AESEncryption.encrypt(seed, passphrase);
-console.log(typeof result);
-console.log(result);
