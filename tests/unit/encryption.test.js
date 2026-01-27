@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { AESEncryption } from "../src/core/encryption.js";
+import { AESEncryption } from "../../src/core/encryption.js";
 describe("Testing AES encryption", () => {
     const seed = "bridge total merit solar adjust duty fiction average find clarify prize ocean";
     const passphrase = "@Jl394sd8ueS!";
