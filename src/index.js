@@ -1,31 +1,61 @@
 import PromptSync from "prompt-sync";
-import { AESEncryption } from "../src/core/encryption.js";
-// 2. Stringify le chiffrement AES
-// 3. Implementer le Shamir Split pour 3 fragments et en jeter 1
+import { SeedManager } from "./core/seedManager.js";
 const prompt = PromptSync();
-console.log("Welcome to SeedGuard! 🛡️\nPress 1 if you want to encrypt.\nPress 2 if you want to decrypt.");
-let answer = Number(prompt("Choice: "));
+console.log("🛡️  Welcome to SeedGuard - Secure Seed Phrase Manager\n");
+console.log("Please select an option:");
+console.log("  [1] Encrypt a seed phrase");
+console.log("  [2] Decrypt a seed phrase\n");
+let answer = Number(prompt("Your choice (1 or 2): "));
 while (answer !== 1 && answer !== 2) {
-    console.log("Please, Press 1 if you want to encrypt.\nPress 2 if you want to decrypt.");
-    answer = Number(prompt("Choice: "));
+    console.log("\n❌ Invalid choice. Please enter 1 or 2.");
+    answer = Number(prompt("Your choice (1 or 2): "));
 }
-const passphrase = prompt("Please enter your passphrase: ");
+console.log();
+const passphrase = prompt.hide("Enter your passphrase: ");
 if (answer === 1) {
-    const seed = prompt("Please enter your seedphrase: ");
-    const encrypt = AESEncryption.encrypt(seed, passphrase);
-    console.log("Please save your encryption carefully or you won't be able to decrypt later: ", encrypt);
+    console.log("\n📝 ENCRYPTION MODE");
+    const seed = prompt("Enter your seed phrase: ");
+    try {
+        console.log("\n🔐 Encrypting your seed phrase...");
+        const encrypt = SeedManager.secureSeed({ seed, passphrase });
+        const encryptJson = JSON.stringify(encrypt);
+        console.log("\n✅ Encryption successful!\n");
+        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        console.log("⚠️  IMPORTANT: Save this encrypted data securely");
+        console.log("📋 COPY THE LINE BELOW (triple-click to select)");
+        console.log(encryptJson);
+        console.log("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            console.error("❌ Error:", error.message);
+        }
+        else {
+            console.error("❌ An unexpected error occurred");
+        }
+        process.exit(1);
+    }
 }
 else if (answer === 2) {
-    const cipherText = prompt("Please enter you cipher text: ");
-    const iv = prompt("Please enter you iv: ");
-    const salt = prompt("Please enter you salt: ");
-    const tag = prompt("Please enter you tag: ");
-    const encrypt = {
-        cipherText,
-        iv,
-        salt,
-        tag
-    };
-    const decrypt = AESEncryption.decrypt(encrypt, passphrase);
-    console.log(decrypt);
+    console.log("\n🔓 DECRYPTION MODE");
+    const encryptJson = prompt("Paste your encrypted JSON: ");
+    try {
+        console.log("\n🔐 Decrypting your seed phrase...");
+        const encryptedData = JSON.parse(encryptJson);
+        const recoveredSeed = SeedManager.recoverSeed(encryptedData, passphrase);
+        console.log("\n✅ Decryption successful!\n");
+        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        console.log("🔑 YOUR SEED PHRASE (keep it secret!)");
+        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+        console.log(recoveredSeed);
+        console.log("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        console.log("⚠️  Never share your seed phrase with anyone!");
+        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+    }
+    catch (parseError) {
+        console.error("❌ Invalid JSON format. Please check your encrypted data.");
+        process.exit(1);
+    }
 }
+console.log("✅ Operation completed successfully!\n");
+process.exit(0);

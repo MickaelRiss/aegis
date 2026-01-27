@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import * as bip39 from "bip39";
-import { SeedValidator } from "../src/utils/validator.js";
+import { SeedValidator } from "../../src/utils/validator.js";
 describe("Testing seed validation", () => {
     it.each([
         { seed: bip39.generateMnemonic(128), expected: true },
