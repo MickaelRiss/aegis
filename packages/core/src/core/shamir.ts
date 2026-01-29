@@ -1,6 +1,6 @@
 import { split, combine } from "shamir-secret-sharing";
 
-interface ShamirSplit {
+export interface ShamirSplit {
     fragments: string[];
     threshold: number;
     total: number;
