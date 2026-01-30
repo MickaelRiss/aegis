@@ -28,10 +28,11 @@ ipcMain.handle(
     const fragments = await SeedManager.secureSeed({ seed, passphrase });
     const qrA = await generateQR(fragments[0]);
     const qrB = await generateQR(fragments[1]);
+    const qrC = await generateQR(fragments[2]);
     return {
       fragmentA: { data: fragments[0], qr: qrA },
       fragmentB: { data: fragments[1], qr: qrB },
-      fragmentC: { data: fragments[2] },
+      fragmentC: { data: fragments[2], qr: qrC },
     };
   }
 );

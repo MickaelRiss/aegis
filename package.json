@@ -13,6 +13,7 @@
     "build:app": "pnpm --filter aegis-app build",
     "dev": "pnpm --filter aegis-app dev",
     "test": "pnpm --filter aegis-core test",
-    "test:watch": "pnpm --filter aegis-core test:watch"
+    "test:watch": "pnpm --filter aegis-core test:watch",
+    "package": "pnpm build:core && pnpm --filter aegis-app package"
   }
 }

@@ -4,7 +4,7 @@ import { motion, AnimatePresence, type Easing } from "motion/react";
 interface EncryptResult {
   fragmentA: { data: string; qr: string };
   fragmentB: { data: string; qr: string };
-  fragmentC: { data: string };
+  fragmentC: { data: string; qr: string };
 }
 
 const ease: Easing = "easeOut";
@@ -112,9 +112,33 @@ function downloadDataUrl(dataUrl: string, filename: string): void {
 }
 
 const FRAGMENT_META = [
-  { tag: "Fragment A", dest: "Your QR code" },
-  { tag: "Fragment B", dest: "Trusted third party" },
-  { tag: "Fragment C", dest: "Smart contract" },
+  {
+    tag: "Fragment A",
+    dest: "You keep this",
+    steps: [
+      'Click "Download QR"',
+      "Print the QR code",
+      "Store it somewhere safe (safe, lockbox...)",
+    ],
+  },
+  {
+    tag: "Fragment B",
+    dest: "Trusted person",
+    steps: [
+      'Click "Download QR"',
+      "Print the QR code",
+      "Give it to someone you trust (family, friend...)",
+    ],
+  },
+  {
+    tag: "Fragment C",
+    dest: "Cloud backup",
+    steps: [
+      'Click "Download QR"',
+      "Go to your cloud drive (Google Drive, iCloud, AWS...)",
+      'Upload "aegis-fragment-c.png"',
+    ],
+  },
 ];
 
 function App(): React.JSX.Element {
@@ -358,7 +382,7 @@ function App(): React.JSX.Element {
                 {encryptResult && (
                   <motion.div className="result-section" {...fadeIn}>
                     <div className="result-banner">
-                      Download and print your QR codes. Keep Fragment A for yourself and share Fragment B with a trusted person.
+                      Your seed has been encrypted and split into 3 fragments. Follow the instructions on each card to secure them.
                     </div>
                     <div className="result-label">Generated Fragments</div>
                     <motion.div
@@ -370,22 +394,20 @@ function App(): React.JSX.Element {
                       {[
                         { meta: FRAGMENT_META[0], data: encryptResult.fragmentA.data, qr: encryptResult.fragmentA.qr, filename: "aegis-fragment-a.png" },
                         { meta: FRAGMENT_META[1], data: encryptResult.fragmentB.data, qr: encryptResult.fragmentB.qr, filename: "aegis-fragment-b.png" },
-                        { meta: FRAGMENT_META[2], data: encryptResult.fragmentC.data, qr: undefined, filename: undefined },
+                        { meta: FRAGMENT_META[2], data: encryptResult.fragmentC.data, qr: encryptResult.fragmentC.qr, filename: "aegis-fragment-c.png" },
                       ].map(({ meta, data, qr, filename }) => (
                         <motion.div className="fragment-card" key={meta.tag} variants={fadeIn}>
                           <div className="fragment-card-header">
                             <span className="fragment-tag">{meta.tag}</span>
                             <div className="fragment-card-actions">
                               <span className="fragment-dest">{meta.dest}</span>
-                              {qr && filename && (
-                                <button
-                                  className="copy-button"
-                                  onClick={() => downloadDataUrl(qr, filename)}
-                                >
-                                  <DownloadIcon />
-                                  <span>QR</span>
-                                </button>
-                              )}
+                              <button
+                                className="copy-button"
+                                onClick={() => downloadDataUrl(qr, filename)}
+                              >
+                                <DownloadIcon />
+                                <span>QR</span>
+                              </button>
                               <button
                                 className="copy-button"
                                 onClick={() => copyToClipboard(data, meta.tag)}
@@ -395,6 +417,11 @@ function App(): React.JSX.Element {
                               </button>
                             </div>
                           </div>
+                          <ol className="fragment-steps">
+                            {meta.steps.map((step, i) => (
+                              <li key={i}>{step}</li>
+                            ))}
+                          </ol>
                           <div className="fragment-data">{data}</div>
                         </motion.div>
                       ))}

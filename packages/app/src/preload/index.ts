@@ -4,7 +4,7 @@ import { electronAPI } from "@electron-toolkit/preload";
 export interface EncryptResult {
   fragmentA: { data: string; qr: string };
   fragmentB: { data: string; qr: string };
-  fragmentC: { data: string };
+  fragmentC: { data: string; qr: string };
 }
 
 const aegisAPI = {
