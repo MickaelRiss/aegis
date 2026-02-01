@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { join } from "path";
 import { is } from "@electron-toolkit/utils";
-import { SeedManager, generateQR } from "aegis-core";
+import { SeedManager, generateQR } from "kyte-core";
 
 function createWindow(): BrowserWindow {
   const mainWindow = new BrowserWindow({

@@ -7,7 +7,7 @@ export interface EncryptResult {
   fragmentC: { data: string; qr: string };
 }
 
-const aegisAPI = {
+const kyteAPI = {
   encrypt: (seed: string, passphrase: string): Promise<EncryptResult> =>
     ipcRenderer.invoke("seed:encrypt", seed, passphrase),
 
@@ -18,7 +18,7 @@ const aegisAPI = {
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld("electron", electronAPI);
-    contextBridge.exposeInMainWorld("aegis", aegisAPI);
+    contextBridge.exposeInMainWorld("kyte", kyteAPI);
   } catch (error) {
     console.error("Failed to expose APIs:", error);
   }
@@ -26,5 +26,5 @@ if (process.contextIsolated) {
   // @ts-expect-error fallback for non-isolated context
   window.electron = electronAPI;
   // @ts-expect-error fallback for non-isolated context
-  window.aegis = aegisAPI;
+  window.kyte = kyteAPI;
 }

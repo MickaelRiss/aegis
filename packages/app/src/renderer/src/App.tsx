@@ -136,7 +136,7 @@ const FRAGMENT_META = [
     steps: [
       'Click "Download QR"',
       "Go to your cloud drive (Google Drive, iCloud, AWS...)",
-      'Upload "aegis-fragment-c.png"',
+      'Upload "kyte-fragment-c.png"',
     ],
   },
 ];
@@ -181,7 +181,7 @@ function App(): React.JSX.Element {
     setError(null);
     setLoading(true);
     try {
-      const result = await window.aegis.encrypt(seed, passphrase);
+      const result = await window.kyte.encrypt(seed, passphrase);
       setEncryptResult(result);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Encryption failed");
@@ -194,7 +194,7 @@ function App(): React.JSX.Element {
     setError(null);
     setLoading(true);
     try {
-      const recovered = await window.aegis.decrypt(
+      const recovered = await window.kyte.decrypt(
         fragments.filter((f) => f.trim() !== ""),
         passphrase,
       );
@@ -225,7 +225,7 @@ function App(): React.JSX.Element {
       <div className="titlebar">
         <div className="titlebar-brand">
           <div className="titlebar-logo" />
-          <span className="titlebar-name">Aegis</span>
+          <span className="titlebar-name">Kyte</span>
         </div>
         <div className="titlebar-status">
           <span className="status-dot" />
@@ -249,7 +249,7 @@ function App(): React.JSX.Element {
                   <ShieldIcon />
                 </motion.div>
 
-                <h1>Aegis</h1>
+                <h1>Kyte</h1>
                 <p className="landing-subtitle">
                   Secure seed phrase management with Shamir secret sharing
                 </p>
@@ -392,9 +392,9 @@ function App(): React.JSX.Element {
                       animate="animate"
                     >
                       {[
-                        { meta: FRAGMENT_META[0], data: encryptResult.fragmentA.data, qr: encryptResult.fragmentA.qr, filename: "aegis-fragment-a.png" },
-                        { meta: FRAGMENT_META[1], data: encryptResult.fragmentB.data, qr: encryptResult.fragmentB.qr, filename: "aegis-fragment-b.png" },
-                        { meta: FRAGMENT_META[2], data: encryptResult.fragmentC.data, qr: encryptResult.fragmentC.qr, filename: "aegis-fragment-c.png" },
+                        { meta: FRAGMENT_META[0], data: encryptResult.fragmentA.data, qr: encryptResult.fragmentA.qr, filename: "kyte-fragment-a.png" },
+                        { meta: FRAGMENT_META[1], data: encryptResult.fragmentB.data, qr: encryptResult.fragmentB.qr, filename: "kyte-fragment-b.png" },
+                        { meta: FRAGMENT_META[2], data: encryptResult.fragmentC.data, qr: encryptResult.fragmentC.qr, filename: "kyte-fragment-c.png" },
                       ].map(({ meta, data, qr, filename }) => (
                         <motion.div className="fragment-card" key={meta.tag} variants={fadeIn}>
                           <div className="fragment-card-header">

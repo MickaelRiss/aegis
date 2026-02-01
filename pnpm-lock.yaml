@@ -13,7 +13,7 @@ importers:
       '@electron-toolkit/utils':
         specifier: ^3.0.0
         version: 3.0.0(electron@34.5.8)
-      aegis-core:
+      kyte-core:
         specifier: workspace:*
         version: link:../core
       motion:
@@ -4141,12 +4141,6 @@ snapshots:
       log-symbols: 4.1.0
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
-
-  p-cancelable@2.1.1: {}
-
-  once@1.4.0:
-    dependencies:
-      wrappy: 1.0.2
 
   p-cancelable@2.1.1: {}
 

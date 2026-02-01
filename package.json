@@ -1,5 +1,5 @@
 {
-  "name": "aegis",
+  "name": "kyte",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -9,11 +9,11 @@
   },
   "scripts": {
     "build": "pnpm -r build",
-    "build:core": "pnpm --filter aegis-core build",
-    "build:app": "pnpm --filter aegis-app build",
-    "dev": "pnpm --filter aegis-app dev",
-    "test": "pnpm --filter aegis-core test",
-    "test:watch": "pnpm --filter aegis-core test:watch",
-    "package": "pnpm build:core && pnpm --filter aegis-app package"
+    "build:core": "pnpm --filter kyte-core build",
+    "build:app": "pnpm --filter kyte-app build",
+    "dev": "pnpm --filter kyte-app dev",
+    "test": "pnpm --filter kyte-core test",
+    "test:watch": "pnpm --filter kyte-core test:watch",
+    "package": "pnpm build:core && pnpm --filter kyte-app package"
   }
 }

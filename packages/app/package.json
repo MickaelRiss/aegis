@@ -1,5 +1,5 @@
 {
-  "name": "aegis-app",
+  "name": "kyte-app",
   "version": "1.0.0",
   "description": "Desktop application for securing cryptocurrency seed phrases with AES-256-GCM encryption and Shamir secret sharing",
   "author": "mickaelriss",
@@ -15,8 +15,8 @@
     "package:linux": "electron-vite build && electron-builder --linux --config"
   },
   "build": {
-    "appId": "com.aegis.app",
-    "productName": "Aegis",
+    "appId": "com.kyte.app",
+    "productName": "Kyte",
     "directories": {
       "output": "release"
     },
@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@electron-toolkit/utils": "^3.0.0",
-    "aegis-core": "workspace:*",
+    "kyte-core": "workspace:*",
     "motion": "^12.29.2"
   },
   "devDependencies": {

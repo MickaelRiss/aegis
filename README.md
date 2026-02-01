@@ -1,12 +1,12 @@
-# Aegis
+# Kyte
 
-Aegis is a desktop application that secures cryptocurrency seed phrases using **AES-256-GCM encryption** and **Shamir secret sharing**. It encrypts your seed with a passphrase, then splits the result into 3 fragments — any 2 of which (plus the passphrase) can recover the original seed.
+Kyte is a desktop application that secures cryptocurrency seed phrases using **AES-256-GCM encryption** and **Shamir secret sharing**. It encrypts your seed with a passphrase, then splits the result into 3 fragments — any 2 of which (plus the passphrase) can recover the original seed.
 
-## Why Aegis?
+## Why Kyte?
 
 Storing a seed phrase in a single location is a single point of failure. If it's found, your funds are gone. If it's lost, your funds are gone.
 
-Aegis solves this with two layers of protection:
+Kyte solves this with two layers of protection:
 
 1. **Encryption** — Even if someone finds a fragment, they can't do anything without the passphrase.
 2. **Shamir splitting** — The encrypted data is split into 3 pieces. No single fragment contains enough information to reconstruct the seed. You need at least 2.
@@ -15,8 +15,8 @@ This means you can distribute fragments across different locations and people. L
 
 ## How it works
 
-<img width="906" height="708" alt="Screenshot 2026-01-30 at 11 41 38 AM" src="https://github.com/user-attachments/assets/f51b2cd5-e01e-4c83-9735-87cd0102924a" />
-<img width="553" height="599" alt="Screenshot 2026-01-30 at 11 17 38 AM" src="https://github.com/user-attachments/assets/658b8b07-a59c-4b40-befa-db26501aa52d" />
+<img width="906" height="708" alt="Screenshot 2026-01-30 at 11 41 38 AM" src="https://github.com/user-attachments/assets/f51b2cd5-e01e-4c83-9735-87cd0102924a" />
+<img width="553" height="599" alt="Screenshot 2026-01-30 at 11 17 38 AM" src="https://github.com/user-attachments/assets/658b8b07-a59c-4b40-befa-db26501aa52d" />
 
 ```
 Seed phrase + Passphrase
@@ -51,15 +51,15 @@ To recover your seed, you need **any 2 of the 3 fragments** plus your **passphra
 - Fragment A + Fragment C + passphrase
 - Fragment B + Fragment C + passphrase
 
-### Why Cloud Storage Over Smart Contracts for Aegis ?
-After careful consideration, I've decided to implement cloud storage instead of smart contract storage for Fragment C in Aegis. Here's why:
+### Why Cloud Storage Over Smart Contracts for Kyte ?
+After careful consideration, I've decided to implement cloud storage instead of smart contract storage for Fragment C in Kyte. Here's why:
 Smart contracts create an immutable public record. Once Fragment C is deployed on-chain, it exists forever—visible to anyone, anywhere, at any time. Even though the fragment is encrypted, this permanent visibility presents several concerns:
 - Future cryptographic vulnerabilities: Today's encryption may be breakable tomorrow (quantum computing, new attack vectors)
 - Eternal exposure: Unlike cloud storage, blockchain data cannot be deleted or updated
 - Privacy concerns: Your crypto activity becomes permanently traceable on a public ledger
 - Gas fees
-  
-<img width="804" height="664" alt="Screenshot 2026-01-30 at 11 42 06 AM" src="https://github.com/user-attachments/assets/6ad7011a-3c78-4c96-b3aa-624aaecf444b" />
+
+<img width="804" height="664" alt="Screenshot 2026-01-30 at 11 42 06 AM" src="https://github.com/user-attachments/assets/6ad7011a-3c78-4c96-b3aa-624aaecf444b" />
 
 ## Security details
 
@@ -87,7 +87,7 @@ Smart contracts create an immutable public record. Once Fragment C is deployed o
 
 ## Seed phrase requirements
 
-Aegis validates seed phrases against the [BIP39 standard](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki). A valid seed must:
+Kyte validates seed phrases against the [BIP39 standard](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki). A valid seed must:
 
 - Contain **12, 15, 18, 21, or 24 words**
 - Use only words from the **BIP39 English wordlist** (2048 words)
@@ -105,7 +105,7 @@ abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon 
 journey cluster display fragile oak brief field security digital fetch skull emerge
 ```
 
-**Invalid seeds (rejected by Aegis):**
+**Invalid seeds (rejected by Kyte):**
 
 ```
 # Wrong checksum — words are valid but the combination is mathematically invalid
@@ -121,7 +121,7 @@ bridge total merit solar adjust duty fiction average find clarify prize
 12345 total 12345 67890 duty 67890 lae45 67890 12345 67890 12345 67890
 ```
 
-Aegis also normalizes input: extra spaces are trimmed and uppercase letters are converted to lowercase.
+Kyte also normalizes input: extra spaces are trimmed and uppercase letters are converted to lowercase.
 
 ## Project structure
 
@@ -129,11 +129,11 @@ This is a **pnpm workspace monorepo** with two packages:
 
 ```
 packages/
-├── core/    aegis-core — crypto library (encryption, Shamir, validation, QR)
-└── app/     aegis-app  — Electron + React desktop application
+├── core/    kyte-core — crypto library (encryption, Shamir, validation, QR)
+└── app/     kyte-app  — Electron + React desktop application
 ```
 
-### `aegis-core`
+### `kyte-core`
 
 Pure Node.js library that handles all cryptographic operations:
 
@@ -143,7 +143,7 @@ Pure Node.js library that handles all cryptographic operations:
 - `generateQR` — QR code generation (PNG data URLs)
 - `buildPDF` — PDF generation for fragment export
 
-### `aegis-app`
+### `kyte-app`
 
 Electron + React desktop app built with electron-vite. All crypto runs in the **main process** (Node.js) and is exposed to the renderer via IPC — the frontend never handles cryptographic operations directly.
 

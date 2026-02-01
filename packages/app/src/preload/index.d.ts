@@ -6,7 +6,7 @@ export interface EncryptResult {
   fragmentC: { data: string; qr: string };
 }
 
-interface AegisAPI {
+interface KyteAPI {
   encrypt: (seed: string, passphrase: string) => Promise<EncryptResult>;
   decrypt: (fragments: string[], passphrase: string) => Promise<string>;
 }
@@ -14,6 +14,6 @@ interface AegisAPI {
 declare global {
   interface Window {
     electron: ElectronAPI;
-    aegis: AegisAPI;
+    kyte: KyteAPI;
   }
 }
