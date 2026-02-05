@@ -19,7 +19,7 @@ This means you can distribute fragments across different locations and people. L
 
 ## How it works
 
-
+<img width="975" height="716" alt="Screenshot 2026-02-05 at 10 46 48 PM" src="https://github.com/user-attachments/assets/66d1615e-ef1e-4245-891c-efcf6a5b355e" />
 
 ### Community Edition (Current)
 
