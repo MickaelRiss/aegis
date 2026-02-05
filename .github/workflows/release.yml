@@ -50,3 +50,10 @@ jobs:
           files: ${{ matrix.release_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify Website Repo
+        run: |
+          curl -X POST https://api.github.com/repos/MickaelRiss/kyte_website/dispatches \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.MY_DISPATCH_TOKEN }}" \
+          -d '{"event_type": "new_release", "client_payload": { "version": "${{ github.ref_name }}" }}'
