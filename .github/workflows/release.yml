@@ -39,9 +39,11 @@ jobs:
         run: pnpm install
 
       - name: Set version from git tag
+        shell: bash
         run: |
           VERSION=${GITHUB_REF_NAME#v}
-          npm version $VERSION --no-git-tag-version --workspace=packages/core --workspace=packages/app
+          npm version $VERSION --no-git-tag-version --prefix packages/core
+          npm version $VERSION --no-git-tag-version --prefix packages/app
           npm version $VERSION --no-git-tag-version
 
       - name: Build App
