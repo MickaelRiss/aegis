@@ -54,6 +54,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  notify-website:
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    steps:
       - name: Notify Website Repo
         run: |
           curl -X POST https://api.github.com/repos/MickaelRiss/kyte_website/dispatches \
