@@ -55,5 +55,5 @@ jobs:
         run: |
           curl -X POST https://api.github.com/repos/MickaelRiss/kyte_website/dispatches \
           -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.MY_DISPATCH_TOKEN }}" \
+          -H "Authorization: token ${{ secrets.DISPATCH_TOKEN }}" \
           -d '{"event_type": "new_release", "client_payload": { "version": "${{ github.ref_name }}" }}'
