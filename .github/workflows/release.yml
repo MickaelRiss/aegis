@@ -17,14 +17,11 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            artifact_name: kyte-windows.exe
-            release_path: packages/app/release/*.exe
+            release_path: packages/app/release/kyte-windows-*.exe
           - os: macos-latest
-            artifact_name: kyte-ios.dmg
-            release_path: packages/app/release/*.dmg
+            release_path: packages/app/release/kyte-mac-*.dmg
           - os: ubuntu-latest
-            artifact_name: kyte-ubuntu.tar.gz
-            release_path: packages/app/release/*.tar.gz
+            release_path: packages/app/release/kyte-ubuntu-*.AppImage
 
     steps:
       - name: Checkout code
@@ -40,6 +37,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Set version from git tag
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          npm version $VERSION --no-git-tag-version --workspace=packages/core --workspace=packages/app
+          npm version $VERSION --no-git-tag-version
 
       - name: Build App
         run: pnpm package

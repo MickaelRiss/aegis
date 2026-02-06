@@ -1,6 +1,6 @@
 {
   "name": "kyte-app",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "Desktop application for securing cryptocurrency seed phrases with AES-256-GCM encryption and Shamir secret sharing",
   "author": "mickaelriss",
   "private": true,
@@ -25,13 +25,16 @@
     ],
     "mac": {
       "target": ["dmg"],
+      "artifactName": "kyte-mac-${version}.${ext}",
       "category": "public.app-category.utilities"
     },
     "win": {
-      "target": ["nsis"]
+      "target": ["nsis"],
+      "artifactName": "kyte-windows-${version}.${ext}"
     },
     "linux": {
-      "target": ["AppImage"]
+      "target": ["AppImage"],
+      "artifactName": "kyte-ubuntu-${version}.${ext}"
     }
   },
   "dependencies": {
